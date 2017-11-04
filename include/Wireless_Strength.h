@@ -1,3 +1,6 @@
+#ifndef WIRELESS_STRENGTH_INCLUDE
+#define WIRELESS_STRENGTH_INCLUDE
+
 #include <iostream>
 #include <iostream>
 #include <stdio.h>

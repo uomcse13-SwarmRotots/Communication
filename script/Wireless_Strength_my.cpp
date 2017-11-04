@@ -31,12 +31,37 @@ string GetStdoutFromCommand(string cmd) {
 
 void ConnectToNetwork(string ssid)
 {
-    string con_est = GetStdoutFromCommand("nmcli c up "+ssid);
+    GetStdoutFromCommand("nmcli c up "+ssid);
 }
 
 void DisconnectFromNetwork(string ssid)
 {
-    string con_dis = GetStdoutFromCommand("nmcli c down "+ssid);
+    GetStdoutFromCommand("nmcli c down "+ssid);
+}
+
+// Hotspot SSIDs should be in "ExplorerBot_<id_no>" format. <id_no> should be a 3-digit positive integer
+void SetupRosEnv(int my_id, int neighbour_id, string master_ip)
+{
+    string hostname = GetStdoutFromCommand("hostname -I");
+    if(my_id>neighbour_id)
+    {
+        SetupRosMaster(hostname);
+    }
+    else
+    {
+        SetupRosSlave(hostname,master_ip);
+    }
+}
+
+void SetupRosMaster(string hostname)
+{
+    GetStdoutFromCommand("export ROS_IP="+hostname);
+}
+
+void SetupRosSlave(string hostname,string masterip)
+{
+    GetStdoutFromCommand("export ROS_MASTER_URI=http://"+master_ip+":11311");
+    GetStdoutFromCommand("export ROS_IP="+hostname);
 }
 
 void ScanNetworks(string data){
